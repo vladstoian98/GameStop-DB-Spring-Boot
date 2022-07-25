@@ -27,7 +27,8 @@ public class GameCharacterRequest {
     @NotNull
     private RaceType raceType;
 
-    private List<VideoGameRequest> videoGames;
+    @NotNull
+    private List<VideoGameRequest> videoGameRequests;
 
     public GameCharacterRequest(String name, int level, int age, ClassType classType, RaceType raceType) {
         this.name = name;
@@ -77,11 +78,11 @@ public class GameCharacterRequest {
         this.raceType = raceType;
     }
 
-    public List<VideoGameRequest> getVideoGames() {
-        return videoGames;
+    public List<VideoGameRequest> getVideoGameRequests() {
+        return videoGameRequests;
     }
 
-    public void setVideoGames(List<VideoGameRequest> videoGames) {
-        this.videoGames = videoGames;
+    public void setVideoGameRequests(List<VideoGameRequest> videoGameRequests) {
+        this.videoGameRequests = videoGameRequests;
     }
 }
