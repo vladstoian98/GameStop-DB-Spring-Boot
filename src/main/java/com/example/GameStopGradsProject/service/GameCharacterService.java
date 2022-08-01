@@ -1,13 +1,14 @@
 package com.example.GameStopGradsProject.service;
 
 import com.example.GameStopGradsProject.model.GameCharacter;
-import com.example.GameStopGradsProject.model.VideoGame;
+import com.example.GameStopGradsProject.model.GameStopShop;
 import com.example.GameStopGradsProject.repository.GameCharacterRepository;
 import com.example.GameStopGradsProject.repository.VideoGameRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class GameCharacterService {
@@ -32,5 +33,11 @@ public class GameCharacterService {
 
         videoGameRepository.saveAll(gameCharacter.getVideoGames());
         return gameCharacterRepository.save(gameCharacter);
+    }
+
+    @Transactional
+    public GameCharacter findGameCharacterById(Long id) {
+
+        return gameCharacterRepository.findGameCharacterById(id);
     }
 }

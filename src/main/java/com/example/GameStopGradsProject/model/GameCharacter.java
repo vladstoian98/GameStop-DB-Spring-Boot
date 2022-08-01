@@ -1,5 +1,6 @@
 package com.example.GameStopGradsProject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
@@ -22,22 +23,31 @@ public class GameCharacter {
     private int level;
 
     private int age;
-
-    @Column(nullable = false, name = "class_type")
+    //@Column(nullable = false, name = "class_type")
     @Enumerated(EnumType.STRING)
     private ClassType classType;
 
-    @Column(nullable = false, name = "race_type")
+    //@Column(nullable = false, name = "race_type")
     @Enumerated(EnumType.STRING)
     private RaceType raceType;
 
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "game_character_id"),
             inverseJoinColumns = @JoinColumn(name = "video_game_id"))
-    @Column(nullable = false)
+    @Column(nullable = false, name = "video_games")
     private List<VideoGame> videoGames = new ArrayList<>();
 
     public GameCharacter() {}
+
+    public GameCharacter(String name, int level, int age, ClassType classType, RaceType raceType) {
+        this.name = name;
+        this.level = level;
+        this.age = age;
+        this.classType = classType;
+        this.raceType = raceType;
+    }
 
     public GameCharacter(String name, int level, int age, ClassType classType,
                          RaceType raceType, List<VideoGame> videoGames) {
