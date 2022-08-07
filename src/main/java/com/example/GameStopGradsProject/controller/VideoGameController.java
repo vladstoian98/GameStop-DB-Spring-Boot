@@ -1,11 +1,13 @@
 package com.example.GameStopGradsProject.controller;
 
+import com.example.GameStopGradsProject.exception.IdDoesNotExist;
 import com.example.GameStopGradsProject.model.VideoGame;
 import com.example.GameStopGradsProject.service.VideoGameService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 //@Validated
@@ -31,13 +33,19 @@ public class VideoGameController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VideoGame> findVideoGameById(
+    public ResponseEntity<Optional<VideoGame>> findVideoGameById(
             @PathVariable Long id) {
 
-        VideoGame selectedVideoGame = videoGameService.findVideoGameById(id);
+        try {
+            Optional<VideoGame> selectedVideoGame = videoGameService.findVideoGameById(id);
 
-        return ResponseEntity
-                .created(URI.create("/videogames" + "/id"))
-                .body(selectedVideoGame);
+            return ResponseEntity
+                    .created(URI.create("/videogames" + "/id"))
+                    .body(selectedVideoGame);
+        } catch(IdDoesNotExist x) {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.GameStopGradsProject.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +56,10 @@ public class GameStopShop {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
         this.mainTheme = mainTheme;
+    }
+
+    public GameStopShop(String streetName) {
+        this.streetName = streetName;
     }
 
     public Long getId() {

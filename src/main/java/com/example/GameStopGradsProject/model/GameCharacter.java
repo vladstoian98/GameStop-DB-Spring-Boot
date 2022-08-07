@@ -69,6 +69,10 @@ public class GameCharacter {
         this.raceType = raceType;
     }
 
+    public GameCharacter(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

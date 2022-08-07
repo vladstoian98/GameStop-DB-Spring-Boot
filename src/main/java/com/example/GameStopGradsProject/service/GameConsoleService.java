@@ -1,5 +1,6 @@
 package com.example.GameStopGradsProject.service;
 
+import com.example.GameStopGradsProject.exception.IdDoesNotExist;
 import com.example.GameStopGradsProject.model.GameConsole;
 import com.example.GameStopGradsProject.repository.GameConsoleRepository;
 import com.example.GameStopGradsProject.repository.GameStopShopRepository;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class GameConsoleService {
@@ -35,11 +37,14 @@ public class GameConsoleService {
     }
 
     @Transactional
-    public GameConsole findGameConsoleById(Long id) {
+    public Optional<GameConsole> findGameConsoleById(Long id) {
 
-        return gameConsoleRepository.findGameConsoleById(id);
+        var foundGameConsole = gameConsoleRepository.findGameConsoleById(id);
+
+        if(foundGameConsole.isEmpty())
+            throw new IdDoesNotExist("GameConsole", id);
+        else
+            return foundGameConsole;
     }
-
-
 }
 

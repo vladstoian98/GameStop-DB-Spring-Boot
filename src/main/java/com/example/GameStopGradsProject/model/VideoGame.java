@@ -66,6 +66,10 @@ public class VideoGame {
         this.gameGenre = gameGenre;
     }
 
+    public VideoGame(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

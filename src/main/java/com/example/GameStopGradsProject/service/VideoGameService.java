@@ -1,14 +1,15 @@
 package com.example.GameStopGradsProject.service;
 
+import com.example.GameStopGradsProject.exception.IdDoesNotExist;
 import com.example.GameStopGradsProject.model.VideoGame;
 import com.example.GameStopGradsProject.repository.GameCharacterRepository;
 import com.example.GameStopGradsProject.repository.GameStopShopRepository;
 import com.example.GameStopGradsProject.repository.VideoGameRepository;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class VideoGameService {
@@ -46,8 +47,13 @@ public class VideoGameService {
     }
 
     @Transactional
-    public VideoGame findVideoGameById(Long id) {
+    public Optional<VideoGame> findVideoGameById(Long id) {
 
-        return videoGameRepository.findVideoGameById(id);
+        var foundVideoGame = videoGameRepository.findVideoGameById(id);
+
+        if(foundVideoGame.isEmpty())
+            throw new IdDoesNotExist("VideoGame", id);
+        else
+            return foundVideoGame;
     }
 }

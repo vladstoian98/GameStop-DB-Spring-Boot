@@ -45,6 +45,10 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Employee(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

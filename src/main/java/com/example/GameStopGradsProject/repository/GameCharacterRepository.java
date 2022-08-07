@@ -4,9 +4,10 @@ import com.example.GameStopGradsProject.model.GameCharacter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GameCharacterRepository extends JpaRepository<GameCharacter, Long> {
 
-    GameCharacter findGameCharacterById(Long id);
+    Optional<GameCharacter> findGameCharacterById(Long id);
 
 }

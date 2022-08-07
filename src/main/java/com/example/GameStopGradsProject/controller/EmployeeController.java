@@ -1,13 +1,14 @@
 package com.example.GameStopGradsProject.controller;
 
+import com.example.GameStopGradsProject.exception.IdDoesNotExist;
 import com.example.GameStopGradsProject.model.Employee;
-import com.example.GameStopGradsProject.repository.EmployeeRepository;
+import com.example.GameStopGradsProject.model.GameStopShop;
 import com.example.GameStopGradsProject.service.EmployeeService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees")
@@ -31,13 +32,31 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> findEmployeeById(
+    public ResponseEntity<Optional<Employee>> findEmployeeById(
             @PathVariable Long id) {
 
-        Employee selectedEmployee = employeeService.findEmployeeById(id);
+        try {
+            Optional<Employee> selectedEmployee = employeeService.findEmployeeById(id);
+
+            return ResponseEntity
+                    .created(URI.create("/employees" + "/id"))
+                    .body(selectedEmployee);
+        } catch (IdDoesNotExist x) {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
+    }
+
+    @PostMapping("/shopassignation/{employeeId}/{gameStopShopId}")
+    public ResponseEntity<?> assignGameStopShop(
+            @PathVariable long employeeId, @PathVariable long gameStopShopId) {
+
+        employeeService.assignGameStopShop(employeeId, gameStopShopId);
 
         return ResponseEntity
-                .created(URI.create("/employees" + "/id"))
-                .body(selectedEmployee);
+                .ok()
+                .build();
     }
+
 }

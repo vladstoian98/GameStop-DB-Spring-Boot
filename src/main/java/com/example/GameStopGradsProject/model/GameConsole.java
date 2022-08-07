@@ -57,6 +57,10 @@ public class GameConsole {
         this.supportedGameFormat = supportedGameFormat;
     }
 
+    public GameConsole(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
