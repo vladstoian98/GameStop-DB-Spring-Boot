@@ -9,5 +9,5 @@ public interface GameStopShopRepository extends JpaRepository<GameStopShop, Long
 
     Optional<GameStopShop> findGameStopShopById(Long id);
 
-
+    void deleteGameStopShopById(Long id);
 }

@@ -4,9 +4,9 @@ public class CEO {
 
     private static CEO chief = null;
 
-    private String name;
+    private final String name;
 
-    private int age;
+    private final int age;
 
     private CEO() {
         name = "Stoian Vlad";
@@ -14,7 +14,6 @@ public class CEO {
     }
 
     public static CEO getInstance() {
-
         if(chief == null)
             chief = new CEO();
 

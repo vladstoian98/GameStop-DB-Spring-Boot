@@ -5,37 +5,27 @@ import com.example.GameStopGradsProject.model.Employee;
 import com.example.GameStopGradsProject.model.GameStopShop;
 import com.example.GameStopGradsProject.repository.EmployeeRepository;
 import com.example.GameStopGradsProject.repository.GameStopShopRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class EmployeeService {
 
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
-    private GameStopShopRepository gameStopShopRepository;
-
-    public EmployeeService(EmployeeRepository employeeRepository, GameStopShopRepository gameStopShopRepository) {
-        this.employeeRepository = employeeRepository;
-        this.gameStopShopRepository = gameStopShopRepository;
-    }
+    private final GameStopShopRepository gameStopShopRepository;
 
     @Transactional
     public Employee create(Employee employee) {
-
-//        ArrayList<Employee> employees = new ArrayList<>();
-//        employees.add(employee);
-//        employee.getGameStopShop().setEmployees(employees);
-
-        //gameStopShopRepository.save(employee.getGameStopShop());
         return employeeRepository.save(employee);
     }
 
     @Transactional
     public Optional<Employee> findEmployeeById(Long id) {
-
         var foundEmployee = employeeRepository.findEmployeeById(id);
 
         if(foundEmployee.isEmpty())
@@ -46,7 +36,6 @@ public class EmployeeService {
 
     @Transactional
     public void assignGameStopShop(long employeeId, long gameStopShopId) {
-
         var employee = employeeRepository.findEmployeeById(employeeId);
         var gameStopShop = gameStopShopRepository.findGameStopShopById(gameStopShopId);
 
@@ -62,20 +51,14 @@ public class EmployeeService {
         }
     }
 
+    @Transactional
+    public void deleteEmployeeById(Long id) {
+        var selectedEmployee = employeeRepository.findEmployeeById(id);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        if(selectedEmployee.isEmpty())
+            throw new IdDoesNotExist("Employee", id);
+        else {
+            employeeRepository.deleteEmployeeById(id);
+        }
+    }
 }

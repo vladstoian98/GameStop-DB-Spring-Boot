@@ -3,6 +3,7 @@ package com.example.GameStopGradsProject.controller;
 import com.example.GameStopGradsProject.exception.IdDoesNotExist;
 import com.example.GameStopGradsProject.model.GameStopShop;
 import com.example.GameStopGradsProject.service.GameStopShopService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,19 +12,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/gamestopshops")
+@AllArgsConstructor
 public class GameStopShopController {
 
-    private GameStopShopService gameStopShopService;
-
-    public GameStopShopController(GameStopShopService gameStopShopService) {
-        this.gameStopShopService = gameStopShopService;
-    }
+    private final GameStopShopService gameStopShopService;
 
     @PostMapping
     public ResponseEntity<GameStopShop> create (
-            @RequestBody GameStopShop gameStopShop
-    ) {
-
+            @RequestBody GameStopShop gameStopShop) {
             GameStopShop createdGameStopShop = gameStopShopService.create(gameStopShop);
 
             return ResponseEntity
@@ -34,7 +30,6 @@ public class GameStopShopController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<GameStopShop>> findGameStopShopById (
             @PathVariable Long id) {
-
         try {
             Optional<GameStopShop> selectedGameStopShop = gameStopShopService.findGameStopShopById(id);
 
@@ -46,5 +41,35 @@ public class GameStopShopController {
                     .notFound()
                     .build();
         }
+    }
+
+    @DeleteMapping("/deletion/{id}")
+    public ResponseEntity<?> deleteGameStopShopById(@PathVariable Long id) {
+        try {
+            gameStopShopService.deleteGameStopShopById(id);
+
+            return ResponseEntity
+                    .ok()
+                    .build();
+        }
+        catch (IdDoesNotExist e) {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
+    }
+
+    @PostMapping("/bothwaysconsole/{gameStopShopId}/{gameConsoleId}")
+    public void assignBothWaysForGameConsole(
+            @PathVariable long gameStopShopId,
+            @PathVariable long gameConsoleId) {
+        gameStopShopService.assignBothWaysForGameConsole(gameStopShopId, gameConsoleId);
+    }
+
+    @PostMapping("/bothwaysgame/{gameStopShopId}/{videoGameId}")
+    public void assignBothWaysForVideoGame(
+            @PathVariable long gameStopShopId,
+            @PathVariable long videoGameId) {
+        gameStopShopService.assignBothWaysForVideoGame(gameStopShopId, videoGameId);
     }
 }
